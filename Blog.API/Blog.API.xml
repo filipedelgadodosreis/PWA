@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Blog.API</name>
+    </assembly>
+    <members>
+        <member name="M:Blog.API.Extensions.StringHelper.UrlFriendly(System.String,System.Int32)">
+            <summary>
+            Creates a URL And SEO friendly slug
+            https://www.johanbostrom.se/blog/how-to-create-a-url-and-seo-friendly-string-in-csharp-text-to-slug-generator
+            </summary>
+            <param name="text">Text to slugify</param>
+            <param name="maxLength">Max length of slug</param>
+            <returns>URL and SEO friendly string</returns>
+        </member>
+        <member name="M:Blog.API.Extensions.StringHelper.ConstHelper.RemapInternationalCharToAscii(System.Char)">
+            <summary>
+            Remaps international characters to ascii compatible ones
+            based of: https://meta.stackexchange.com/questions/7435/non-us-ascii-characters-dropped-from-full-profile-url/7696#7696
+            </summary>
+            <param name="c">Charcter to remap</param>
+            <returns>Remapped character</returns>
+        </member>
+    </members>
+</doc>
