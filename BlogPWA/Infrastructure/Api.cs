@@ -8,6 +8,11 @@
             {
                 return $"{baseUri}posts";
             }
+
+            public static string GetPostsLinks(string baseUri)
+            {
+                return $"{baseUri}posts/links";
+            }
         }
     }
 }

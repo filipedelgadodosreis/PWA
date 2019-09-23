@@ -8,7 +8,7 @@ namespace BlogPWA.Services
     {
         Task<BlogViewModel> GetLatestPosts();
 
-        string GetPostText(string link);
+        Task<string> GetPostText(string link);
 
         List<BlogViewModel> GetOlderPosts(int oldestPostId);
     }

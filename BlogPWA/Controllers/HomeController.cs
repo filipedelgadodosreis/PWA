@@ -2,6 +2,7 @@
 using BlogPWA.Services;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace BlogPWA.Controllers
 {
@@ -32,5 +33,12 @@ namespace BlogPWA.Controllers
             var posts = _blogSvc.GetLatestPosts();
             return Json(posts);
         }
+
+        public ContentResult Post(string link)
+        {
+            var result = _blogSvc.GetPostText(link);
+
+            return Content(result.ToString());
+        }
     }
 }
