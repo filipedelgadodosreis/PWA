@@ -27,7 +27,7 @@ namespace Blog.API.Controllers
 
             var totalItems = posts.LongCount();
 
-            var itemsOnPage = posts.OrderBy(c => c.Title)
+            var itemsOnPage = posts.OrderBy(c => c.PostId)
                                     .Skip(pageSize * pageIndex)
                                     .Take(pageSize)
                                     .ToList();
@@ -55,21 +55,6 @@ namespace Blog.API.Controllers
 
         private List<BlogPost> GetLatestPosts()
         {
-            //var posts = new List<BlogPost>();
-
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    var postItem = new BlogPost()
-            //    {
-            //        PostId = i,
-            //        Title = "Obter posts via API",
-            //        ShortDescription = "Como usar fetch para obter uma lista de posts do blog"
-            //    };
-
-            //    posts.Add(postItem);
-            //}
-            //return posts;
-
             return new List<BlogPost>() {
                 new BlogPost { PostId = 1, Title = "Obter posts via API", ShortDescription = "Como usar fetch para obter uma lista de posts do blog" },
                 new BlogPost { PostId = 2, Title = "Usando Indexed DB", ShortDescription = "Como salvar lista de posts utilizando indexed DB" },
@@ -83,12 +68,7 @@ namespace Blog.API.Controllers
                 new BlogPost { PostId = 10, Title = "Unity", ShortDescription = "Como implementar uma aplicação Unity" },
                 new BlogPost { PostId = 11, Title = "Angular", ShortDescription = "Como implementar uma aplicação Angular" },
                 new BlogPost { PostId = 12, Title = "React", ShortDescription = "Como implementar uma aplicação React" }
-
-            //return new List<BlogPost>() {
-            //    new BlogPost { PostId = 1, Title = "Obter posts via API", ShortDescription = "Como usar fetch para obter uma lista de posts do blog" },
-            //    new BlogPost { PostId = 2, Title = "Usando Indexed DB", ShortDescription = "Como salvar lista de posts utilizando indexed DB" },
-            //    new BlogPost { PostId = 3, Title = "Gravando posts do blog no cache", ShortDescription = "Como usar a Cache API para salvar posts de blog que podem ser acessados offline" },
-        };
+            };
 
         }
 
@@ -109,5 +89,7 @@ namespace Blog.API.Controllers
                 new BlogPost { PostId = 12, Title = "React", ShortDescription = "Como implementar uma aplicação React" }
             };
         }
+
+
     }
 }

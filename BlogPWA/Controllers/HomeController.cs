@@ -1,7 +1,9 @@
 ﻿using BlogPWA.Models;
 using BlogPWA.Services;
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BlogPWA.Controllers
@@ -30,15 +32,20 @@ namespace BlogPWA.Controllers
 
         public JsonResult LatestBlogPosts()
         {
-            var posts = _blogSvc.GetLatestPosts();
+            var posts = _blogSvc.GetPosts();
             return Json(posts);
         }
 
-        public ContentResult Post(string link)
+        public async Task<ContentResult> Post(string link)
         {
-            var result = _blogSvc.GetPostText(link);
+            return Content(await _blogSvc.GetPostText(link));
+        }
 
-            return Content(result.ToString());
+        public IEnumerable<BlogViewModel> GetLatestPosts()
+        {
+            var posts = _blogSvc.GetLatestPosts();
+
+            return posts.Result.Take(3);
         }
     }
 }

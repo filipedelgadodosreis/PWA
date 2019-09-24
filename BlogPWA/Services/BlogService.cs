@@ -28,7 +28,7 @@ namespace BlogPWA.Services
             _remoteServiceBaseUrl = $"{_settings.Value.BlogUrl}/api/blog/";
         }
 
-        public async Task<BlogViewModel> GetLatestPosts()
+        public async Task<BlogViewModel> GetPosts()
         {
             var uri = Api.Blog.GetLatestPosts(_remoteServiceBaseUrl);
             var responseString = await _httpClient.GetStringAsync(uri);
@@ -54,6 +54,16 @@ namespace BlogPWA.Services
             var post = posts.FirstOrDefault(_ => _.Link == link);
 
             return string.IsNullOrEmpty(responseString) ? string.Empty : File.ReadAllText($"{_env.WebRootPath}/Posts/{post.PostId}_post.md");
+        }
+
+        public async Task<IEnumerable<BlogViewModel>> GetLatestPosts()
+        {
+            var uri = Api.Blog.GetPostsLinks(_remoteServiceBaseUrl);
+            var responseString = await _httpClient.GetStringAsync(uri);
+
+            var posts = JsonConvert.DeserializeObject<IEnumerable<BlogViewModel>>(responseString);
+
+            return posts;
         }
     }
 }

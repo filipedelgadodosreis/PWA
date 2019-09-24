@@ -6,10 +6,12 @@ namespace BlogPWA.Services
 {
     public interface IBlogService
     {
-        Task<BlogViewModel> GetLatestPosts();
+        Task<BlogViewModel> GetPosts();
 
         Task<string> GetPostText(string link);
 
         List<BlogViewModel> GetOlderPosts(int oldestPostId);
+
+        Task<IEnumerable<BlogViewModel>> GetLatestPosts();
     }
 }
