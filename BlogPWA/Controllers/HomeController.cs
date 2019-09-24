@@ -39,13 +39,11 @@ namespace BlogPWA.Controllers
         public async Task<ContentResult> Post(string link)
         {
             return Content(await _blogSvc.GetPostText(link));
-        }
-
-        public IEnumerable<BlogViewModel> GetLatestPosts()
+        }        public JsonResult MoreBlogPosts(int oldestBlogPostId)
         {
-            var posts = _blogSvc.GetLatestPosts();
+            var posts = _blogSvc.GetOlderPosts(oldestBlogPostId);
 
-            return posts.Result.Take(3);
+            return Json(posts);
         }
     }
 }

@@ -41,7 +41,14 @@ namespace BlogPWA.Services
 
         public List<BlogViewModel> GetOlderPosts(int oldestPostId)
         {
-            throw new NotImplementedException();
+            //var posts = Posts.Where(_ => _.PostId < oldestPostId).OrderByDescending(_ => _.PostId).ToList();
+
+            //if (posts.Count < 3)
+            //    return posts;
+
+            //return posts.Take(3).ToList();
+
+            throw new NotImplementedException();
         }
 
         public async Task<string> GetPostText(string link)
@@ -65,5 +72,7 @@ namespace BlogPWA.Services
 
             return posts;
         }
+
+
     }
 }

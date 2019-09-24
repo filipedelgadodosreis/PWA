@@ -11,12 +11,13 @@ namespace Blog.API.Controllers
     [ApiController]
     public class BlogController : ControllerBase
     {
+        // GET api/v1/[controller]/posts[?pageSize=3&pageIndex=10]
         [HttpGet]
         [Route("posts")]
         [ProducesResponseType(typeof(PaginatedItemsViewModel<BlogPost>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(IEnumerable<BlogPost>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public IActionResult LatestBlogPosts([FromQuery]int pageSize = 10, [FromQuery]int pageIndex = 0, string ids = null)
+        public IActionResult LatestBlogPosts([FromQuery]int pageSize = 3, [FromQuery]int pageIndex = 0, string ids = null)
         {
             var posts = GetLatestPosts();
 
@@ -27,7 +28,7 @@ namespace Blog.API.Controllers
 
             var totalItems = posts.LongCount();
 
-            var itemsOnPage = posts.OrderBy(c => c.PostId)
+            var itemsOnPage = posts.OrderByDescending(c => c.PostId)
                                     .Skip(pageSize * pageIndex)
                                     .Take(pageSize)
                                     .ToList();
