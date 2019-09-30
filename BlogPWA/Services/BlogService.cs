@@ -39,16 +39,17 @@ namespace BlogPWA.Services
             return blogViewModel;
         }
 
-        public List<BlogViewModel> GetOlderPosts(int oldestPostId)
+        public async Task<IEnumerable<BlogViewModel>> GetOlderPosts(int oldestPostId)
         {
-            //var posts = Posts.Where(_ => _.PostId < oldestPostId).OrderByDescending(_ => _.PostId).ToList();
+            var uri = Api.Blog.GetPostsLinks(_remoteServiceBaseUrl);
+            var responseString = await _httpClient.GetStringAsync(uri);
 
-            //if (posts.Count < 3)
-            //    return posts;
+            var posts = JsonConvert.DeserializeObject<IEnumerable<BlogViewModel>>(responseString);
 
-            //return posts.Take(3).ToList();
+            if (posts.Count() < 3)
+                return posts;
 
-            throw new NotImplementedException();
+            return posts.Take(3).ToList();
         }
 
         public async Task<string> GetPostText(string link)
