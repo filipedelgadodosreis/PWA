@@ -4,6 +4,21 @@
         <name>Blog.API</name>
     </assembly>
     <members>
+        <member name="M:Blog.API.Controllers.BlogController.LatestBlogPosts(System.Int32,System.Int32)">
+            <summary>
+            Método responsável por retornar as postagens mais recentes do blog.
+            </summary>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <param name="ids"></param>
+            <returns>Objeto com as ultimas postagens</returns>
+        </member>
+        <member name="M:Blog.API.Controllers.BlogController.GetPosts">
+            <summary>
+            Metodo responsavel por recuperar os posts do blog
+            </summary>
+            <returns>Retorna lista de posts</returns>
+        </member>
         <member name="M:Blog.API.Extensions.StringHelper.UrlFriendly(System.String,System.Int32)">
             <summary>
             Creates a URL And SEO friendly slug
