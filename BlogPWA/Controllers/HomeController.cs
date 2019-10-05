@@ -1,9 +1,7 @@
 ﻿using BlogPWA.Models;
 using BlogPWA.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BlogPWA.Controllers
@@ -39,11 +37,14 @@ namespace BlogPWA.Controllers
         public async Task<ContentResult> Post(string link)
         {
             return Content(await _blogSvc.GetPostText(link));
-        }        public JsonResult MoreBlogPosts(int oldestBlogPostId)
+        }
+
+        public JsonResult MoreBlogPosts(int oldestBlogPostId)
         {
             var posts = _blogSvc.GetOlderPosts(oldestBlogPostId);
 
             return Json(posts);
-        }
+        }
+
     }
 }

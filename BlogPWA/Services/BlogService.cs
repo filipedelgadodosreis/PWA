@@ -3,7 +3,6 @@ using BlogPWA.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,15 +16,16 @@ namespace BlogPWA.Services
         private readonly HttpClient _httpClient;
         private readonly IHostingEnvironment _env;
         private readonly string _remoteServiceBaseUrl;
-        private readonly IOptions<AppSettings> _settings;
+
+        public IOptions<AppSettings> Settings { get; }
 
         public BlogService(HttpClient httpClient, IOptions<AppSettings> settings, IHostingEnvironment env)
         {
             _env = env;
-            _settings = settings;
+            Settings = settings;
             _httpClient = httpClient;
 
-            _remoteServiceBaseUrl = $"{_settings.Value.BlogUrl}/api/blog/";
+            _remoteServiceBaseUrl = $"{Settings.Value.BlogUrl}/api/blog/";
         }
 
         public async Task<BlogViewModel> GetPosts()
@@ -39,22 +39,19 @@ namespace BlogPWA.Services
             return blogViewModel;
         }
 
-        public async Task<IEnumerable<BlogViewModel>> GetOlderPosts(int oldestPostId)
+        public async Task<BlogViewModel> GetOlderPosts(int oldestPostId)
         {
-            var uri = Api.Blog.GetPostsLinks(_remoteServiceBaseUrl);
+            var uri = Api.Blog.GetOlderPosts(_remoteServiceBaseUrl, oldestPostId);
             var responseString = await _httpClient.GetStringAsync(uri);
 
-            var posts = JsonConvert.DeserializeObject<IEnumerable<BlogViewModel>>(responseString);
+            var posts = JsonConvert.DeserializeObject<BlogViewModel>(responseString);
 
-            if (posts.Count() < 3)
-                return posts;
-
-            return posts.Take(3).ToList();
+            return posts;
         }
 
         public async Task<string> GetPostText(string link)
         {
-            var uri = Api.Blog.GetPostsLinks(_remoteServiceBaseUrl);
+            var uri = Api.Blog.GetPostText(_remoteServiceBaseUrl);
             var responseString = await _httpClient.GetStringAsync(uri);
 
             var posts = JsonConvert.DeserializeObject<IEnumerable<BlogPost>>(responseString);
@@ -66,7 +63,7 @@ namespace BlogPWA.Services
 
         public async Task<IEnumerable<BlogViewModel>> GetLatestPosts()
         {
-            var uri = Api.Blog.GetPostsLinks(_remoteServiceBaseUrl);
+            var uri = Api.Blog.GetLatestPosts(_remoteServiceBaseUrl);
             var responseString = await _httpClient.GetStringAsync(uri);
 
             var posts = JsonConvert.DeserializeObject<IEnumerable<BlogViewModel>>(responseString);

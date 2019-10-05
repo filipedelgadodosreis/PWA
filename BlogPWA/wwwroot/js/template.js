@@ -34,4 +34,4 @@
         appendBlogList: appendBlogList,
         showBlogItem: showBlogItem
     }
-});
+});

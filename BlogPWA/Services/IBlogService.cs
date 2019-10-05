@@ -10,7 +10,7 @@ namespace BlogPWA.Services
 
         Task<string> GetPostText(string link);
 
-        Task<IEnumerable<BlogViewModel>> GetOlderPosts(int oldestPostId);
+        Task<BlogViewModel> GetOlderPosts(int oldestPostId);
 
         Task<IEnumerable<BlogViewModel>> GetLatestPosts();
     }
