@@ -1,5 +1,5 @@
-﻿define(['./template.js', '../lib/showdown/showdown.js'],
-    function (template, showdown) {
+﻿define(['./template.js', '../lib/showdown/showdown.js', './clientStorage.js'],
+    function (template, showdown, clientStorage) {
 
         var oldestBlogPostId = 0;
         var blogPostUrl = '/Home/Post/?link=';
@@ -13,9 +13,12 @@
                     .then(function (response) {
                         return response.json();
                     }).then(function (data) {
-                        template.appendBlogList(data);
-                        setOldestBlogPostId(data);
-                        resolve('The connection is OK, showing latest results');
+                        clientStorage.addPosts(data)
+                            //template.appendBlogList(data);
+                            //setOldestBlogPostId(data);
+                            .then(function () {
+                                resolve('The connection is OK, showing latest results');
+                            });
                     }).catch(function (e) {
                         resolve('No connection, showing offline results');
                     });
@@ -29,8 +32,12 @@
             fetchPromise(url)
                 .then(function (status) {
                     $('#connection-status').html(status);
+                    clientStorage.getPosts()
+                        .then(function (posts) {
+                            template.appendBlogList(posts);
+                        })
                 });
-        }
+        }
 
 
         function setOldestBlogPostId(data) {
@@ -56,7 +63,7 @@
         }
 
         function loadMoreBlogPosts() {
-            loadData(blogMorePostsUrl + oldestBlogPostId);
+            loadData(blogMorePostsUrl + clientStorage.getOldestBlogPostId());
         }
 
         return {

@@ -16,8 +16,8 @@
 
     function appendBlogList(items) {
         var cardHtml = '';
-        for (var i = 0; i < items.result.data.length; i++) {
-            cardHtml += generateBlogItem(items.result.data[i]);
+        for (var i = 0; i < items.length; i++) {
+            cardHtml += generateBlogItem(items[i]);
         }
 
         $('.blog-list').append(cardHtml);
