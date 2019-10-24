@@ -6,6 +6,24 @@
         name: 'blog'
     });
 
+    function getPostText(link) {
+        return new Promise(function (resolve, reject) {
+            blogInstance.getItem('#' + link)
+                .then(function (text) {
+                    resolve(text);
+                });
+        });
+    }
+
+    function addPostText(link, text) {
+        return new Promise(function (resolve, reject) {
+            blogInstance.setItem('#' + link, text).then(function () {
+                resolve();
+            });
+        });
+    }
+
+
     function addPosts(posts) {
         return new Promise(function (resolve, reject) {
             var keyValuePair = [];
@@ -50,6 +68,8 @@
     return {
         addPosts: addPosts,
         getPosts: getPosts,
-        getOldestBlogPostId: getOldestBlogPostId
+        getOldestBlogPostId: getOldestBlogPostId,
+        addPostText: addPostText,
+        getPostText: getPostText
     }
 });
