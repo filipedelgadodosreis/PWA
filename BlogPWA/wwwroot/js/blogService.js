@@ -53,12 +53,20 @@
         //}
 
         function loadBlogPost(link) {
+
             fetchPromise(blogPostUrl, link, true)
                 .then(function (status) {
                     $('#connection-status').html(status);
-                    clientStorage.getPostText(link)                        .then(function (data) {
+
+                    clientStorage.getPostText(link)
+                        .then(function (data) {
                             if (!data) {
-                                template.showBlogItem($('#blog-content-notfound').html(), link);
+
+                                var contentNotFound = $('#blog-content-not-found')
+                                    .html().replace(/{{Link}}/g, link)
+                                    ;
+
+                                template.showBlogItem(contentNotFound, link);
                             } else {
                                 var converter = new showdown.Converter();
                                 html = converter.makeHtml(data);

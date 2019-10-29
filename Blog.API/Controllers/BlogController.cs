@@ -78,7 +78,12 @@ namespace Blog.API.Controllers
         /// Metodo responsavel por recuperar os posts do blog
         /// </summary>
         /// <returns>Retorna lista de posts</returns>
-        private List<BlogPost> GetPosts()
+        [HttpGet]
+        [Route("posts/all")]
+        [ProducesResponseType(typeof(PaginatedItemsViewModel<BlogPost>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<BlogPost>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public List<BlogPost> GetPosts()
         {
             return new List<BlogPost>() {
                 new BlogPost { PostId = 1, Title = "Obter posts via API", ShortDescription = "Como usar fetch para obter uma lista de posts do blog" },
@@ -94,7 +99,6 @@ namespace Blog.API.Controllers
                 new BlogPost { PostId = 11, Title = "Angular", ShortDescription = "Como implementar uma aplicação Angular" },
                 new BlogPost { PostId = 12, Title = "React", ShortDescription = "Como implementar uma aplicação React" }
             };
-
         }
     }
 }

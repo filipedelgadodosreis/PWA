@@ -51,7 +51,7 @@ namespace BlogPWA.Services
 
         public async Task<string> GetPostText(string link)
         {
-            var uri = Api.Blog.GetPostText(_remoteServiceBaseUrl);
+            var uri = Api.Blog.GetPosts(_remoteServiceBaseUrl);
             var responseString = await _httpClient.GetStringAsync(uri);
 
             var posts = JsonConvert.DeserializeObject<IEnumerable<BlogPost>>(responseString);

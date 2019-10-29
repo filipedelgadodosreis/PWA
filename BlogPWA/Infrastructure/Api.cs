@@ -18,6 +18,11 @@
             {
                 return $"{baseUri}posts/links";
             }
+
+            public static string GetPosts(string baseUri)
+            {
+                return $"{baseUri}posts/all";
+            }
         }
     }
 }

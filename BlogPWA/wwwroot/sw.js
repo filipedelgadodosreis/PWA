@@ -1,4 +1,7 @@
-﻿var cacheName = 'v1Cache';
+﻿"use strict";
+importScripts('lib/localforage/localforage.min.js');
+
+var cacheName = 'v2Cache';
 
 var blogCacheFiles = [
     '/',
@@ -7,7 +10,7 @@ var blogCacheFiles = [
     '/lib/bootstrap/dist/css/bootstrap.css',
     '/css/site.css',
     '/lib/jquery/dist/jquery.js',
-    '/lib/bootstrap/dist/js/bootstrap.bundle.js',
+    '/lib/bootstrap/dist/js/bootstrap.min.js',
     '/lib/es6-promise/es6-promise.js',
     '/lib/fetch/fetch.js',
     '/lib/systemjs/system.js',
@@ -23,13 +26,17 @@ var blogCacheFiles = [
     '/js/template.js',
     '/lib/showdown/showdown.js',
     '/js/clientStorage.js',
-    '/images/icons/icon-72x72.png',    '/images/icons/icon-96x96.png',
+    '/images/icons/icon-72x72.png',
+    '/images/icons/icon-96x96.png',
     '/images/icons/icon-128x128.png',
+    '/images/icons/icon-144x144.png',
     '/images/icons/icon-152x152.png',
     '/images/icons/icon-192x192.png',
     '/images/icons/icon-384x384.png',
     '/images/icons/icon-512x512.png'
-];function timeout(ms, promise) {
+];
+
+function timeout(ms, promise) {
     return new Promise(function (resolve, reject) {
         setTimeout(function () {
             reject();
@@ -85,4 +92,36 @@ self.addEventListener('fetch', event => {
             })
         );
     }
+});
+
+self.addEventListener('backgroundfetchsuccess', (event) => {
+    const bgFetch = event.registration;
+
+    event.waitUntil(async function () {
+
+        var blogInstance = localforage.createInstance({
+            name: 'blog'
+        });
+
+        const records = await bgFetch.matchAll();
+
+        const promises = records.map(async (record) => {
+            const response = await record.responseReady;
+
+            response.text().then(function (text) {
+                console.log("text retrieved - storing in indexedDB");
+                blogInstance.setItem('#' + bgFetch.id, text);
+            });
+        });
+
+        await Promise.all(promises);
+        event.updateUI({ title: 'Done!' });
+    }());
+});
+
+self.addEventListener('push', function (event) {
+    event.waitUntil(self.registration.showNotification('Maki Blog!', {
+        body: event.data.text(),
+        icon: '/images/notification.png'
+    }));
 });
