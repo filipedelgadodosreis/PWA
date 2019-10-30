@@ -22,16 +22,15 @@ public static class ServiceCollectionExtensions
     {
         services.AddOptions();
         services.AddMemoryCache();
-        
-        //services.AddMemoryVapidTokenCache();
-        //services.AddPushServiceClient(options =>
-        //{
-        //    IConfigurationSection pushNotificationServiceConfigurationSection = configuration.GetSection(nameof(PushServiceClient));
+        services.AddMemoryVapidTokenCache();
+        services.AddPushServiceClient(options =>
+        {
+            IConfigurationSection pushNotificationServiceConfigurationSection = configuration.GetSection(nameof(PushServiceClient));
 
-        //    options.Subject = pushNotificationServiceConfigurationSection.GetValue<string>(nameof(options.Subject));
-        //    options.PublicKey = pushNotificationServiceConfigurationSection.GetValue<string>(nameof(options.PublicKey));
-        //    options.PrivateKey = pushNotificationServiceConfigurationSection.GetValue<string>(nameof(options.PrivateKey));
-        //});
+            options.Subject = pushNotificationServiceConfigurationSection.GetValue<string>(nameof(options.Subject));
+            options.PublicKey = pushNotificationServiceConfigurationSection.GetValue<string>(nameof(options.PublicKey));
+            options.PrivateKey = pushNotificationServiceConfigurationSection.GetValue<string>(nameof(options.PrivateKey));
+        });
 
         return services;
     }
