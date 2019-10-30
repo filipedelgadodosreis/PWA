@@ -28,6 +28,23 @@ namespace BlogPWA.Controllers
             return Content(_pushClient.DefaultAuthentication.PublicKey, "text/plain");
         }
 
+        [HttpPost("notifications")]
+        public async Task<IActionResult> SendNotification([FromBody]PushMessageViewModel messageVM)
+        {
+            var message = new PushMessage(messageVM.Notification)
+            {
+                Topic = messageVM.Topic,
+                Urgency = messageVM.Urgency
+            };
+
+            await _subscriptionStore.ForEachSubscriptionAsync((PushSubscription subscription) =>
+            {
+                _pushClient.RequestPushMessageDeliveryAsync(subscription, message);
+            });
+
+            return NoContent();
+        }
+
         public IActionResult Privacy()
         {
             return View();
