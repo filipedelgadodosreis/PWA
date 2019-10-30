@@ -29,7 +29,7 @@ window.pageEvents = {
     tryAddHomeScreen: function () {
         defferedPrompt.prompt();
         defferedPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome == 'accepted') {
+            if (choiceResult.outcome === 'accepted') {
                 console.log('Usuário aceitou o A2HS prompt');
                 $('#install-container').hide();
             }
@@ -66,6 +66,9 @@ window.pageEvents = {
                 }
             });
         });
+    },
+    requestPushPermission: function () {
+        serviceWorker.requestPushPermission();
     }
 };
 

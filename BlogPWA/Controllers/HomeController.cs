@@ -3,18 +3,29 @@ using BlogPWA.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Lib.Net.Http.WebPush;
+using BlogPWA.Store;
 
 namespace BlogPWA.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IBlogService _blogSvc;
+        private readonly IPushSubscriptionStore _subscriptionStore;
+        private readonly PushServiceClient _pushClient;
+
 
         public HomeController(IBlogService blogSvc) => _blogSvc = blogSvc;
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet("publickey")]
+        public ContentResult GetPublicKey()
+        {
+            return Content(_pushClient.DefaultAuthentication.PublicKey, "text/plain");
         }
 
         public IActionResult Privacy()

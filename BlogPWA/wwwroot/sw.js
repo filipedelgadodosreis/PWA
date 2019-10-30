@@ -68,7 +68,7 @@ self.addEventListener('activate', function (event) {
             .then(function (cacheKeys) {
                 var deletePromises = [];
                 for (var i = 0; i < cacheKeys.length; i++) {
-                    if (cacheKeys[i] != cacheName) {
+                    if (cacheKeys[i] !== cacheName) {
                         deletePromises.push(caches.delete(cacheKeys[i]));
                     }
                 }
@@ -120,7 +120,7 @@ self.addEventListener('backgroundfetchsuccess', (event) => {
 });
 
 self.addEventListener('push', function (event) {
-    event.waitUntil(self.registration.showNotification('Maki Blog!', {
+    event.waitUntil(self.registrationshowNotification('Tecno Blog!', {
         body: event.data.text(),
         icon: '/images/notification.png'
     }));
